@@ -1,19 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const UserItem = ({user: { login, avatar_url, html_url }}) => {
-        return (
-            <div className="card text-center">
-                <img src={avatar_url} alt="error" className="round-img"/>
-                <h3>{login}</h3>
-                <Link 
-                to={`/user/${login}`} 
-                // target="_blank" 
-                className="btn btn-dark btn-sm my-1">Github Profile
+const UserItem = ({ user: { login, avatar_url, html_url } }) => {
+    return (
+        <div className="card text-center">
+            <img src={avatar_url} alt="error" className="round-img" />
+            <h3>{login}</h3>
+
+            <div>
+                <Link
+                    to={`/user/${login}`}
+                    // target="_blank" 
+                    className="btn btn-dark btn-sm my-1">Github Profile
                 </Link>
             </div>
-        )
+
+        </div>
+    )
 }
 
 UserItem.propTypes = {

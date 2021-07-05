@@ -8,7 +8,7 @@ import Search from './components/users/Search'
 import Alert from './components/layout/Alert'
 import About from './components/pages/About.js'
 
-import './App.css';
+import './App.css'
 
 class App extends Component {
   state = {
@@ -44,7 +44,7 @@ class App extends Component {
 
   getUser = async (username) => {
     this.setState({ loading: true });
-    const res = await axios.get(`https://api.github.com/search/users/${username}?client_id=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_SECRET}`);
+    const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_SECRET}`);
     this.setState({ user: res.data, loading: false });
   }
 
