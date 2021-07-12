@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar.js'
-import Users from './components/users/Users.js'
 import User from './components/users/User.js'
-import Search from './components/users/Search'
-import Alert from './components/layout/Alert'
+import Alert from './components/layout/Alert.js'
+import Home from './components/pages/Home.js'
 import About from './components/pages/About.js'
+import NotFound from './components/pages/NotFound.js'
 
 import GithubState from './context/github/GithubState.js'
+import AlertState from './context/alert/AlertState.js'
 
 import './App.css'
 
@@ -16,33 +16,26 @@ const App = () => {
   // const [user, setUser] = useState({});
   // const [repos, setRepos] = useState([]);
   // const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-
-  const showAlert = (msg, type) => {
-    setAlert({ msg, type });
-    setTimeout(() => setAlert(null), 5000);
-  }
+  // const [alert, setAlert] = useState(null);
 
   return (
     <GithubState>
-      <BrowserRouter>
-        <div className="App">
-          <Navbar />
-          <div className="container">
-            <Alert alert={alert} />
-            <Switch>
-              <Route exact path='/' render={props => (
-                <>
-                  <Search showAlert={showAlert} />
-                  <Users />
-                </>
-              )} />
-              <Route exact path='/about' component={About} />
-              <Route exact path='/user/:login' component={User} />
-            </Switch>
+      <AlertState>
+        <BrowserRouter>
+          <div className="App">
+            <Navbar />
+            <div className="container">
+              <Alert />
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/about' component={About} />
+                <Route exact path='/user/:login' component={User} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </BrowserRouter>
+        </BrowserRouter>
+      </AlertState>
     </GithubState>
   );
 }
