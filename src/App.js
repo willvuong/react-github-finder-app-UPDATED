@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import axios from 'axios'
 import Navbar from './components/layout/Navbar.js'
 import Users from './components/users/Users.js'
 import User from './components/users/User.js'
@@ -13,33 +12,11 @@ import GithubState from './context/github/GithubState.js'
 import './App.css'
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
-  const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [users, setUsers] = useState([]);
+  // const [user, setUser] = useState({});
+  // const [repos, setRepos] = useState([]);
+  // const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-
-  
-
-  const getUser = async (username) => {
-    setLoading(true);
-    const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_SECRET}`);
-    setUser(res.data);
-    setLoading(false);
-  }
-
-  const getUserRepos = async (username) => {
-    setLoading(true);
-    const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_FINDER_APP_CLIENT_SECRET}`);
-    setRepos(res.data);
-    setLoading(false);
-  }
-
-  const clearUsers = () => {
-    setUsers([]);
-    setLoading(false);
-  }
 
   const showAlert = (msg, type) => {
     setAlert({ msg, type });
@@ -48,51 +25,26 @@ const App = () => {
 
   return (
     <GithubState>
-    <BrowserRouter>
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Alert alert={alert} />
-          <Switch>
-            <Route exact path='/' render={props => (
-              <>
-                <Search
-                  // searchUsers={searchUsers}
-                  clearUsers={clearUsers}
-                  showClear={users.length > 0 ? true : false}
-                  showAlert={showAlert}
-                />
-                <Users
-                  loading={loading}
-                  users={users}
-                />
-              </>
-            )} />
-            <Route exact path='/about' component={About} />
-            <Route exact path='/user/:login' render={props => (
-              <User
-                {...props}
-                getUser={getUser}
-                getUserRepos={getUserRepos}
-                user={user}
-                repos={repos}
-                loading={loading}
-              />
-
-            )}
-
-            />
-          </Switch>
-
-
+      <BrowserRouter>
+        <div className="App">
+          <Navbar />
+          <div className="container">
+            <Alert alert={alert} />
+            <Switch>
+              <Route exact path='/' render={props => (
+                <>
+                  <Search showAlert={showAlert} />
+                  <Users />
+                </>
+              )} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/user/:login' component={User} />
+            </Switch>
+          </div>
         </div>
-
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
     </GithubState>
   );
-
-
 }
 
 export default App;
